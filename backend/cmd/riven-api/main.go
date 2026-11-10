@@ -2,7 +2,10 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
+
+	"github.com/Samuriot/Riven/backend/internal/api"
 )
 
 var default_url string = "ws://localhost:7880"
@@ -41,6 +44,13 @@ func LoadEnv() Config {
 
 func main() {
 	cfg := LoadEnv()
+	server := &api.Server{
+		APIKey: cfg.APIKey,
+		APISecret: cfg.APISecret,
+		LiveKitURL: cfg.LiveKitURL,
+	}
+
+	log.Fatal(http.ListenAndServe(":" + cfg.Port, server.InitRoutes()))
 	// TODO: set logs to a logfile
 	log.Printf("riven-api on :%s, LiveKit at %s", cfg.Port, cfg.LiveKitURL)
 }
