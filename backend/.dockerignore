@@ -1,0 +1,7 @@
+# Keep secrets and local junk out of the build context.
+.env
+bin/
+*.log
+.git
+Dockerfile
+.dockerignore
